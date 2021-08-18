@@ -1,4 +1,7 @@
 using System;
+using System.IO;
+using System.Linq;
+using GeoCoordinatePortable;
 using Xunit;
 
 namespace LoggingKata.Test
@@ -8,36 +11,44 @@ namespace LoggingKata.Test
         [Fact]
         public void ShouldDoSomething()
         {
-            // TODO: Complete Something, if anything
 
-            //Arrange
+            
             var tacoParser = new TacoParser();
 
-            //Act
+     
             var actual = tacoParser.Parse("34.073638, -84.677017, Taco Bell Acwort...");
 
-            //Assert
+           
             Assert.NotNull(actual);
 
         }
 
         [Theory]
         [InlineData("34.073638, -84.677017, Taco Bell Acwort...", -84.677017)]
+        [InlineData("30.903723,-84.556037,Taco Bell Bainbridg...", -84.556037)]
         public void ShouldParseLongitude(string line, double expected)
         {
-            // TODO: Complete - "line" represents input data we will Parse to
-            //       extract the Longitude.  Your .csv file will have many of these lines,
-            //       each representing a TacoBell location
+          
+            var tester = new TacoParser();
 
-            //Arrange
+            
+            var actual = tester.Parse(line);
 
-            //Act
-
-            //Assert
+            
+            Assert.Equal(expected, actual.Location.Longitude);
         }
 
 
-        //TODO: Create a test ShouldParseLatitude
+       
+        [Theory]
+        [InlineData("34.073638, -84.677017, Taco Bell Acwort...", 34.073638)]
+        public void ShouldParseLatitude(string line, double expected)
+        {
+            var test = new TacoParser();
+            var actual = test.Parse(line);
+            Assert.Equal(expected, actual.Location.Latitude);
+        }
+
 
     }
 }
